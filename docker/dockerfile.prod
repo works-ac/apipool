@@ -3,5 +3,4 @@ RUN mkdir -p /usr/apps
 COPY . .
 RUN yarn install
 RUN npm run build
-EXPOSE 12356
 CMD [ "npm", "run","start:prod" ]
