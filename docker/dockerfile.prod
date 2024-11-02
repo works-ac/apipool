@@ -2,9 +2,6 @@ FROM node:20
 RUN mkdir -p /usr/apps
 COPY . .
 RUN yarn install
-ENV NODE_ENV=production
-ENV PORT=12356
-ENV HOST=0.0.0.0
 RUN npm run build
 EXPOSE 12356
 CMD [ "npm", "run","start:prod" ]
