@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './index';
 import { HttpStatus } from '@nestjs/common';
-import { Request, Response } from 'express';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -18,41 +17,41 @@ describe('AppController', () => {
     it('should be defined', () => expect(appController).toBeDefined());
 
     it('should return "Pong" with status 200', () => {
-      const mockRequest = { ip: '127.0.0.1' } as Request;
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as unknown as Response;
+      const mockRequest = '127.0.0.1';
       const reply = {
         status: 'success',
         message: 'Pong',
         entry_by: '127.0.0.1',
         details: null,
       };
+      const mockResponse = {
+        status: HttpStatus.OK,
+        reply,
+      };
 
-      appController.ping(mockRequest, mockResponse);
+      appController.ping(mockRequest);
 
-      expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(mockResponse.json).toHaveBeenCalledWith(reply);
+      expect(mockResponse.status).toBe(HttpStatus.OK);
+      expect(mockResponse.reply).toBe(reply);
     });
 
     it('should handle request without IP', () => {
-      const mockRequest = { ip: '' } as Request;
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as unknown as Response;
+      const mockRequest = '';
       const reply = {
         status: 'success',
         message: 'Pong',
         entry_by: '0.0.0.0',
         details: null,
       };
+      const mockResponse = {
+        status: HttpStatus.OK,
+        reply,
+      };
 
-      appController.ping(mockRequest, mockResponse);
+      appController.ping(mockRequest);
 
-      expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(mockResponse.json).toHaveBeenCalledWith(reply);
+      expect(mockResponse.status).toBe(HttpStatus.OK);
+      expect(mockResponse.reply).toBe(reply);
     });
   });
 
@@ -60,41 +59,41 @@ describe('AppController', () => {
     it('should be defined', () => expect(appController).toBeDefined());
 
     it('should return 200 status with "All system are operational message"', () => {
-      const mockRequest = { ip: '127.0.0.1' } as Request;
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as unknown as Response;
+      const mockRequest = '127.0.0.1';
       const reply = {
         status: 'success',
         message: 'All system are operational',
         entry_by: '127.0.0.1',
         details: null,
       };
+      const mockResponse = {
+        status: HttpStatus.OK,
+        reply,
+      };
 
-      appController.healthCheck(mockRequest, mockResponse);
+      appController.healthCheck(mockRequest);
 
-      expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(mockResponse.json).toHaveBeenCalledWith(reply);
+      expect(mockResponse.status).toBe(HttpStatus.OK);
+      expect(mockResponse.reply).toBe(reply);
     });
 
     it('should behave same without an IP', () => {
-      const mockRequest = { ip: null } as Request;
-      const mockResponse = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as unknown as Response;
+      const mockRequest = '';
       const reply = {
         status: 'success',
         message: 'All system are operational',
         entry_by: '0.0.0.0',
         details: null,
       };
+      const mockResponse = {
+        status: HttpStatus.OK,
+        reply,
+      };
 
-      appController.healthCheck(mockRequest, mockResponse);
+      appController.healthCheck(mockRequest);
 
-      expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(mockResponse.json).toHaveBeenCalledWith(reply);
+      expect(mockResponse.status).toBe(HttpStatus.OK);
+      expect(mockResponse.reply).toBe(reply);
     });
   });
 });

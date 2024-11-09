@@ -4,6 +4,7 @@ export enum ApiStatus {
   EXCEPTION = 'exception',
   NA = 'not found',
   CONFLICT = 'conflict',
+  VALIDATION = 'validation',
 }
 
 export class ApiResponse {
@@ -12,7 +13,6 @@ export class ApiResponse {
   public entry_by: string;
   public details: any;
 
-  // Constructor signatures
   constructor();
   constructor(status: ApiStatus, message: string);
   constructor(status: ApiStatus, message: string, entry_by: string);
@@ -24,8 +24,8 @@ export class ApiResponse {
     entry_by?: string,
     data?: any,
   ) {
-    this.status = status;
-    this.message = message ?? '0';
+    this.status = status ?? ApiStatus.SUCCESS;
+    this.message = message ?? 'Api operation succeeded';
     this.entry_by = entry_by ?? '0.0.0.0';
     this.details = data ?? null;
   }
