@@ -2,7 +2,7 @@
 
 ## Description
 
-An open-source repository that provide pool of apis and pre-built apps related to almost all use cases to software professionals and common peoples. For more information about project, please read [Api Documentation](https://apipool-dev.application.bookjn.in/api-docs)
+An open-source repository that provide pool of apis and pre-built apps related to almost all use cases to software professionals and common peoples. For more information about project, please read [Api Documentation](https://apipool.application.bookjn.in/api-docs)
 
 ## Project setup
 
