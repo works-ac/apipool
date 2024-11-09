@@ -1,31 +1,58 @@
-import { Controller, Get, HttpStatus, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Get, Ip } from '@nestjs/common';
+import {
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ApiResponse, ApiStatus, BASE_URL } from 'src/api';
+import { Docs } from 'src/docs';
 
 @Controller(`${BASE_URL}/`)
+@ApiTags('Home')
 export class AppController {
   @Get('ping')
-  public ping(@Req() request: Request, @Res() response: Response): Response {
+  @ApiOperation({ summary: 'Api for checking the status of backend system' })
+  @ApiOkResponse({
+    description: 'Returns pong and client ip address',
+    schema: Docs.schemas.ApiReplySchema,
+  })
+  @ApiInternalServerErrorResponse({
+    description:
+      'Some error occurred on server during processing of your request.',
+    schema: Docs.schemas.ApiExceptionSchema,
+  })
+  public ping(@Ip() ipAddress: string): ApiResponse {
     const reply = new ApiResponse(
       ApiStatus.SUCCESS,
       'Pong',
-      request.ip || '0.0.0.0',
+      ipAddress || '0.0.0.0',
     );
 
-    return response.status(HttpStatus.OK).json(reply);
+    return reply;
   }
 
   @Get('health-check')
-  public healthCheck(
-    @Req() request: Request,
-    @Res() response: Response,
-  ): Response {
+  @ApiOperation({
+    summary: 'Api for checking the health of overall backend system',
+  })
+  @ApiOkResponse({
+    description:
+      'Returns all system operational message with client ip address',
+    schema: Docs.schemas.ApiReplySchema,
+  })
+  @ApiInternalServerErrorResponse({
+    description:
+      'Some error occurred on server during processing of your request.',
+    schema: Docs.schemas.ApiExceptionSchema,
+  })
+  public healthCheck(@Ip() ipAddress: string): ApiResponse {
     const reply = new ApiResponse(
       ApiStatus.SUCCESS,
       'All system are operational',
-      request.ip || '0.0.0.0',
+      ipAddress || '0.0.0.0',
     );
 
-    return response.status(HttpStatus.OK).json(reply);
+    return reply;
   }
 }
