@@ -1,18 +1,46 @@
 import { DocumentBuilder } from '@nestjs/swagger';
-import { SWAGGER_SERVERS } from 'src/constant';
+import { ENVIRONMENTS, SWAGGER_SERVERS } from 'src/constant';
 import { Docs } from 'src/docs';
 
 const { author } = Docs;
-const localServerUrl = `http://${process.env.HOST}:${process.env.PORT}`;
 
-export const swaggerConfigs = new DocumentBuilder()
-  .setTitle('Apipool documentation')
-  .setDescription(Docs.desc)
-  .setVersion(Docs.version)
-  .addBearerAuth()
-  .addServer(localServerUrl, SWAGGER_SERVERS.LOCAL)
-  .addServer(process.env.DEV_APIPOOL_URL, SWAGGER_SERVERS.DEV)
-  .addServer(process.env.LIVE_APIPOOL_URL, SWAGGER_SERVERS.LIVE)
-  .setContact(author.name, author.website, author.email)
-  .setLicense('MIT Licensed', Docs.license)
-  .build();
+export class SwaggerConf {
+  private readonly url;
+
+  constructor(private readonly environment: ENVIRONMENTS) {
+    if (environment === ENVIRONMENTS.LOCAL)
+      this.url = `http://${process.env.HOST}:${process.env.PORT}`;
+    else if (environment === ENVIRONMENTS.DEV)
+      this.url = process.env.DEV_APIPOOL_URL;
+    else if (environment === ENVIRONMENTS.LIVE)
+      this.url = process.env.LIVE_APIPOOL_URL;
+  }
+
+  private getServer(): Array<string> {
+    const server = [this.url];
+
+    if (this.environment === ENVIRONMENTS.LOCAL)
+      server.push(SWAGGER_SERVERS.LOCAL);
+    else if (this.environment === ENVIRONMENTS.DEV)
+      server.push(SWAGGER_SERVERS.DEV);
+    else if (this.environment === ENVIRONMENTS.LIVE)
+      server.push(SWAGGER_SERVERS.LIVE);
+
+    return server;
+  }
+
+  public build() {
+    const [url, serverName] = this.getServer();
+    const conf = new DocumentBuilder()
+      .setTitle('Apipool documentation')
+      .setDescription(Docs.desc)
+      .setVersion(Docs.version)
+      .addBearerAuth()
+      .addServer(url, serverName)
+      .setContact(author.name, author.website, author.email)
+      .setLicense('MIT Licensed', Docs.license)
+      .build();
+
+    return conf;
+  }
+}

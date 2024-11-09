@@ -9,3 +9,9 @@ export enum SWAGGER_SERVERS {
   DEV = 'Development Server',
   LIVE = 'Live Server',
 }
+
+export enum ENVIRONMENTS {
+  LOCAL = 'local',
+  DEV = 'development',
+  LIVE = 'production',
+}
