@@ -16,12 +16,8 @@ export async function bootstrap() {
     ENVIRONMENTS.LOCAL) as ENVIRONMENTS;
   const conf = new Swagger(environment);
 
-  const app = await NestFactory.create(AppModule, {
-    logger: false,
-    cors: true,
-  });
+  const app = await NestFactory.create(AppModule, { logger: false });
   const document = SwaggerModule.createDocument(app, conf.build());
-
   app.enableCors({ origin: '*', credentials: true });
   app.use((request: Request, response: Response, next: NextFunction) => {
     request.app.set('trust proxy', true);
