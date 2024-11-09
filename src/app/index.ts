@@ -6,16 +6,21 @@ import { MODULES } from 'src/modules';
 import { Packages } from 'src/packages';
 import { SwaggerModule } from '@nestjs/swagger';
 import { Configurations } from 'src/config';
+import { ENVIRONMENTS } from 'src/constant';
 
 export async function bootstrap() {
   const { EXCEPTIONS } = Packages;
   const { AppModule } = MODULES;
+  const { Swagger } = Configurations;
+  const environment = (process.env.NODE_ENV ||
+    ENVIRONMENTS.LOCAL) as ENVIRONMENTS;
+  const conf = new Swagger(environment);
 
   const app = await NestFactory.create(AppModule, {
     logger: false,
     cors: true,
   });
-  const document = SwaggerModule.createDocument(app, Configurations.swagger);
+  const document = SwaggerModule.createDocument(app, conf.build());
 
   app.enableCors({ origin: '*', credentials: true });
   app.use((request: Request, response: Response, next: NextFunction) => {

@@ -1,5 +1,5 @@
-import { swaggerConfigs } from './swagger.config';
+import { SwaggerConf } from './swagger.config';
 
 export const Configurations = {
-  swagger: swaggerConfigs,
+  Swagger: SwaggerConf,
 };
