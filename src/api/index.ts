@@ -5,6 +5,7 @@ export enum ApiStatus {
   NA = 'not found',
   CONFLICT = 'conflict',
   VALIDATION = 'validation',
+  UNAUTH_ACCESS = 'unauthorized access',
 }
 
 export class ApiResponse {

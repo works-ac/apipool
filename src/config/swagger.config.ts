@@ -1,4 +1,6 @@
 import { DocumentBuilder } from '@nestjs/swagger';
+import { Request } from 'express';
+import { ApiResponse, ApiStatus } from 'src/api';
 import { ENVIRONMENTS, SWAGGER_SERVERS } from 'src/constant';
 import { Docs } from 'src/docs';
 
@@ -32,7 +34,7 @@ export class SwaggerConf {
   public build() {
     const [url, serverName] = this.getServer();
     const conf = new DocumentBuilder()
-      .setTitle('Apipool documentation')
+      .setTitle(Docs.title)
       .setDescription(Docs.desc)
       .setVersion(Docs.version)
       .addBearerAuth()
@@ -42,5 +44,20 @@ export class SwaggerConf {
       .build();
 
     return conf;
+  }
+
+  public unauthResponseHandler(request: Request) {
+    return new ApiResponse(
+      ApiStatus.UNAUTH_ACCESS,
+      'Invalid Credentials',
+      request.ip || '0.0.0.0',
+    );
+  }
+
+  public setupDefConfig() {
+    return {
+      customSiteTitle: 'Apipool docs',
+      yamlDocumentUrl: process.env.API_YAML_REL_URL,
+    };
   }
 }

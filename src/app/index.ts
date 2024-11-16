@@ -7,6 +7,7 @@ import { Packages } from 'src/packages';
 import { SwaggerModule } from '@nestjs/swagger';
 import { Configurations } from 'src/config';
 import { ENVIRONMENTS } from 'src/constant';
+import * as auth from 'express-basic-auth';
 
 export async function bootstrap() {
   const { EXCEPTIONS } = Packages;
@@ -24,10 +25,18 @@ export async function bootstrap() {
     next();
   });
   app.useGlobalFilters(new EXCEPTIONS.GeneralException());
-  SwaggerModule.setup('api-docs', app, document, {
-    customSiteTitle: 'Apipool docs',
-    yamlDocumentUrl: 'api-docs/yaml',
-  });
+  app.use(
+    '/api-docs',
+    auth({
+      users: {
+        [process.env.API_DEF_AUTH_USER]: process.env.API_DEF_AUTH_PASS,
+      },
+      challenge: true,
+      unauthorizedResponse: conf.unauthResponseHandler,
+    }),
+  );
+
+  SwaggerModule.setup('api-docs', app, document, conf.setupDefConfig());
 
   return app;
 }
