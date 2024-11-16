@@ -6,22 +6,15 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiResponse, ApiStatus, BASE_URL } from 'src/api';
-import { Docs } from 'src/docs';
+import { ApiDocsConstants } from 'src/i18n';
 
 @Controller(`${BASE_URL}/`)
 @ApiTags('Home')
 export class AppController {
   @Get('ping')
-  @ApiOperation({ summary: 'Api for checking the status of backend system' })
-  @ApiOkResponse({
-    description: 'Returns pong and client ip address',
-    schema: Docs.schemas.ApiReplySchema,
-  })
-  @ApiInternalServerErrorResponse({
-    description:
-      'Some error occurred on server during processing of your request.',
-    schema: Docs.schemas.ApiExceptionSchema,
-  })
+  @ApiOperation(ApiDocsConstants.HOME.PING.ApiOkOpConf)
+  @ApiOkResponse(ApiDocsConstants.HOME.PING.ApiOkResConf)
+  @ApiInternalServerErrorResponse(ApiDocsConstants.HOME.PING.ApiServerErrConf)
   public ping(@Ip() ipAddress: string): ApiResponse {
     const reply = new ApiResponse(
       ApiStatus.SUCCESS,
@@ -33,19 +26,11 @@ export class AppController {
   }
 
   @Get('health-check')
-  @ApiOperation({
-    summary: 'Api for checking the health of overall backend system',
-  })
-  @ApiOkResponse({
-    description:
-      'Returns all system operational message with client ip address',
-    schema: Docs.schemas.ApiReplySchema,
-  })
-  @ApiInternalServerErrorResponse({
-    description:
-      'Some error occurred on server during processing of your request.',
-    schema: Docs.schemas.ApiExceptionSchema,
-  })
+  @ApiOperation(ApiDocsConstants.HOME.HEALTH_CHECK.ApiOpConf)
+  @ApiOkResponse(ApiDocsConstants.HOME.HEALTH_CHECK.ApiOkResConf)
+  @ApiInternalServerErrorResponse(
+    ApiDocsConstants.HOME.HEALTH_CHECK.ApiServerErrConf,
+  )
   public healthCheck(@Ip() ipAddress: string): ApiResponse {
     const reply = new ApiResponse(
       ApiStatus.SUCCESS,
