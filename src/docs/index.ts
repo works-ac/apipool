@@ -1,11 +1,21 @@
-import { ApiExceptionSchema, ApiReplySchema } from './schema.doc';
+import {
+  ApiExceptionSchema,
+  ApiReplySchema,
+  ApiXmlReplySchema,
+  CheckIpQuerySchema,
+} from './schema.doc';
 
 const Description =
   process.env.API_DOC_DESC ||
   'An open-source repository that provide pool of apis and pre-built apps related to almost all use cases to software professionals and common peoples.';
 
 export const Docs = {
-  schemas: { ApiReplySchema, ApiExceptionSchema },
+  schemas: {
+    ApiReplySchema,
+    ApiExceptionSchema,
+    CheckIpQuerySchema,
+    ApiXmlReplySchema,
+  },
   desc: Description,
   version: process.env.VERSION || 'v1.1',
   author: {
