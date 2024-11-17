@@ -15,3 +15,5 @@ export enum ENVIRONMENTS {
   DEV = 'development',
   LIVE = 'production',
 }
+
+export const TEST_SUITES_TIMEOUT = 30000;
