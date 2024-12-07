@@ -7,7 +7,8 @@ import { Packages } from 'src/packages';
 import { SwaggerModule } from '@nestjs/swagger';
 import { Configurations } from 'src/config';
 import { ENVIRONMENTS } from 'src/constant';
-import * as auth from 'express-basic-auth';
+
+const auth = require('express-basic-auth');
 
 export async function bootstrap() {
   const { EXCEPTIONS } = Packages;

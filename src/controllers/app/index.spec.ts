@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './index';
 import { HttpStatus } from '@nestjs/common';
 import { TEST_SUITES_TIMEOUT } from 'src/constant';
+import { ApiResponse } from 'src/api';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -24,22 +25,26 @@ describe('AppController', () => {
     it(
       'should return "Pong" with status 200',
       () => {
-        const mockRequest = '127.0.0.1';
+        const ipAddress = '127.0.0.1';
         const reply = {
           status: 'success',
           message: 'Pong',
           entry_by: '127.0.0.1',
           details: null,
         };
-        const mockResponse = {
-          status: HttpStatus.OK,
-          reply,
-        };
+        const status = HttpStatus.OK;
 
-        appController.ping(mockRequest);
+        const response = appController.ping(ipAddress);
 
-        expect(mockResponse.status).toBe(HttpStatus.OK);
-        expect(mockResponse.reply).toBe(reply);
+        expect(status).toBe(HttpStatus.OK);
+
+        expect(response).toBeDefined();
+        expect(response).toBeInstanceOf(ApiResponse);
+
+        expect(response.status).toBe(reply.status);
+        expect(response.message).toBe(reply.message);
+        expect(response.entry_by).toBe(reply.entry_by);
+        expect(response.details).toEqual(reply.details);
       },
       TEST_SUITES_TIMEOUT,
     );
@@ -47,22 +52,26 @@ describe('AppController', () => {
     it(
       'should handle request without IP',
       () => {
-        const mockRequest = '';
+        const ipAddress = '';
         const reply = {
           status: 'success',
           message: 'Pong',
           entry_by: '0.0.0.0',
           details: null,
         };
-        const mockResponse = {
-          status: HttpStatus.OK,
-          reply,
-        };
+        const status = HttpStatus.OK;
 
-        appController.ping(mockRequest);
+        const response = appController.ping(ipAddress);
 
-        expect(mockResponse.status).toBe(HttpStatus.OK);
-        expect(mockResponse.reply).toBe(reply);
+        expect(status).toBe(HttpStatus.OK);
+
+        expect(response).toBeDefined();
+        expect(response).toBeInstanceOf(ApiResponse);
+
+        expect(response.status).toBe(reply.status);
+        expect(response.message).toBe(reply.message);
+        expect(response.entry_by).toBe(reply.entry_by);
+        expect(response.details).toEqual(reply.details);
       },
       TEST_SUITES_TIMEOUT,
     );
@@ -78,7 +87,7 @@ describe('AppController', () => {
     it(
       'should return 200 status with "All system are operational message"',
       () => {
-        const mockRequest = '127.0.0.1';
+        const ipAddress = '127.0.0.1';
         const reply = {
           status: 'success',
           message: 'All system are operational',
@@ -89,11 +98,18 @@ describe('AppController', () => {
           status: HttpStatus.OK,
           reply,
         };
+        const status = HttpStatus.OK;
 
-        appController.healthCheck(mockRequest);
+        const response = appController.healthCheck(ipAddress);
 
-        expect(mockResponse.status).toBe(HttpStatus.OK);
-        expect(mockResponse.reply).toBe(reply);
+        expect(response).toBeDefined();
+        expect(response).toBeInstanceOf(ApiResponse);
+
+        expect(status).toBe(HttpStatus.OK);
+        expect(response.status).toBe(response.status);
+        expect(response.message).toBe(reply.message);
+        expect(response.entry_by).toBe(reply.entry_by);
+        expect(response.details).toEqual(reply.details);
       },
       TEST_SUITES_TIMEOUT,
     );

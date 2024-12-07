@@ -123,6 +123,7 @@ export class ApiResponse {
 export const BASE_URL = '/api';
 export enum URLS {
   NETWORKING_CONTROLLER_URL = `${BASE_URL}/basic-utils/networking/`,
+  MISC_CONTROLLER_URL = `${BASE_URL}/basic-utils/misc/`,
 }
 
 export enum SUPPORTED_API_RES {
