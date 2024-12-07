@@ -39,6 +39,96 @@ export const ApiReplySchema = {
   },
 };
 
+export const CountryApiReplySchema = {
+  type: 'object',
+  format: 'application/json',
+  properties: {
+    status: {
+      type: 'string',
+      default: 'success',
+      examples: [
+        'success',
+        'error',
+        'exception',
+        'not found',
+        'conflict',
+        'validation',
+      ],
+      description: 'Define the status of the api operation',
+    },
+    message: {
+      type: 'string',
+      default: 'Api operation succeeded',
+      description: 'Define message returned by the api',
+    },
+    details: {
+      type: 'object',
+      default: [
+        {
+          name: 'Iceland',
+          dial_code: '+354',
+          emoji: '🇮🇸',
+          code: 'IS',
+        },
+        {
+          name: 'India',
+          dial_code: '+91',
+          emoji: '🇮🇳',
+          code: 'IN',
+        },
+      ],
+      description: 'The detailed api response',
+    },
+    entry_by: {
+      type: 'string',
+      default: '0.0.0.0',
+      example: '<ip address of the client>',
+      required: ['true'],
+      description: 'Describes the identity of the client',
+    },
+  },
+};
+
+export const CurrencyApiReplySchema = {
+  type: 'object',
+  format: 'application/json',
+  properties: {
+    status: {
+      type: 'string',
+      default: 'success',
+      examples: [
+        'success',
+        'error',
+        'exception',
+        'not found',
+        'conflict',
+        'validation',
+      ],
+      description: 'Define the status of the api operation',
+    },
+    message: {
+      type: 'string',
+      default: 'Api operation succeeded',
+      description: 'Define message returned by the api',
+    },
+    details: {
+      type: 'object',
+      default: [
+        { country: 'Russia', currency: 'RUB', symbol: '₽' },
+        { country: 'India', currency: 'INR', symbol: '₹' },
+      ],
+      description: 'The detailed currency api response',
+    },
+    entry_by: {
+      type: 'string',
+      default: '0.0.0.0',
+      example: '<ip address of the client>',
+      required: ['true'],
+      description: 'Describes the identity of the client',
+    },
+  },
+};
+
 export const ApiXmlReplySchema = {
   type: 'object',
   properties: {

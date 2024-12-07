@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NetworkingController } from './networking.utils.controller';
 import { HttpStatus } from '@nestjs/common';
-import { SUPPORTED_API_RES } from 'src/api';
+import { ApiResponse, SUPPORTED_API_RES } from 'src/api';
 import { TEST_SUITES_TIMEOUT } from 'src/constant';
 import { Helpers } from 'src/helpers';
 import { Packages } from 'src/packages';
@@ -19,6 +19,8 @@ describe('/api/basic-utils/networking/', () => {
 
     nwController = module.get(NetworkingController);
   });
+
+  afterAll(() => jest.clearAllMocks());
 
   describe('check-ip', () => {
     it(
@@ -115,51 +117,53 @@ describe('/api/basic-utils/networking/', () => {
     it(
       'should return 200 when google.com is provided',
       async () => {
-        helpers = {
-          checkForMailServer: jest
-            .fn()
-            .mockResolvedValue([{ exchange: '123', priority: 1 }]),
-        };
-        const mockRequest = '127.0.0.1';
+        const mxRecords = [{ exchange: '123', priority: 1 }];
+        jest.spyOn(Helpers, 'checkForMailServer').mockResolvedValue(mxRecords);
+
+        const ipAddress = '127.0.0.1';
         const reply = {
           status: 'success',
           message: 'Operation succeeded',
           entry_by: '127.0.0.1',
           details: { ans: 'DELIVERABLE' },
         };
-        const mockResponse = {
-          status: HttpStatus.OK,
-          reply,
-        };
+        const status = HttpStatus.OK;
 
-        await nwController.checkMailServer(mockRequest, 'google.com');
+        const response = await nwController.checkMailServer(
+          ipAddress,
+          'google.com',
+        );
 
-        expect(mockResponse.status).toBe(HttpStatus.OK);
-        expect(mockResponse.reply).toBe(reply);
+        expect(response).toBeDefined();
+        expect(response).toBeInstanceOf(ApiResponse);
+
+        expect(status).toBe(HttpStatus.OK);
+        expect(response.status).toBe(reply.status);
+        expect(response.message).toBe(reply.message);
+        expect(response.entry_by).toBe(reply.entry_by);
+        expect(response.details).toEqual(reply.details);
       },
       TEST_SUITES_TIMEOUT,
     );
 
     it(
-      'should 400 when no domain is provided',
+      'should return 400 when no domain is provided',
       async () => {
-        const mockRequest = '127.0.0.1';
+        const ipAddress = '127.0.0.1';
         const reply = {
           status: 'validation',
           message: 'Operation succeeded',
           entry_by: '127.0.0.1',
           details: { ans: 'All fields are mandatory.' },
         };
-        const mockResponse = {
-          status: HttpStatus.BAD_REQUEST,
-          reply,
-        };
+        const status = HttpStatus.BAD_REQUEST;
 
         try {
-          await nwController.checkMailServer(mockRequest, '');
+          await nwController.checkMailServer(ipAddress, '');
         } catch (error) {
-          expect(mockResponse.status).toBe(HttpStatus.BAD_REQUEST);
-          expect(mockResponse.reply).toBe(reply);
+          expect(status).toBe(HttpStatus.BAD_REQUEST);
+          expect(reply).toBeDefined();
+          expect(reply).toBeInstanceOf(Object);
         }
       },
       TEST_SUITES_TIMEOUT,
@@ -168,30 +172,26 @@ describe('/api/basic-utils/networking/', () => {
     it(
       'should return 500 when an unknown domain is provided',
       async () => {
-        helpers = {
-          checkForMailServer: jest
-            .fn()
-            .mockRejectedValue(
-              new InvalidMailServerException('Invalid mail server'),
-            ),
-        };
+        jest
+          .spyOn(Helpers, 'checkForMailServer')
+          .mockRejectedValue(
+            new InvalidMailServerException('Invalid mail server'),
+          );
 
-        const mockRequest = '127.0.0.1';
+        const ipAddress = '127.0.0.1';
         const reply = {
           status: 'exception',
           message: 'Invalid mail server',
           entry_by: '127.0.0.1',
         };
-        const mockResponse = {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          reply,
-        };
+        const status = HttpStatus.INTERNAL_SERVER_ERROR;
 
         try {
-          await nwController.checkMailServer(mockRequest, 'bookjn.in');
+          await nwController.checkMailServer(ipAddress, 'bookjn.in');
         } catch (error) {
-          expect(mockResponse.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
-          expect(mockResponse.reply).toBe(reply);
+          expect(status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
+          expect(reply).toBeDefined();
+          expect(reply).toBeInstanceOf(Object);
         }
       },
       TEST_SUITES_TIMEOUT,

@@ -9,7 +9,7 @@ import { ApiResponse, ApiStatus, BASE_URL } from 'src/api';
 import { ApiDocsConstants } from 'src/i18n';
 
 @Controller(`${BASE_URL}/`)
-@ApiTags('Home')
+@ApiTags(ApiDocsConstants.HOME.TAG_NAME)
 export class AppController {
   @Get('ping')
   @ApiOperation(ApiDocsConstants.HOME.PING.ApiOkOpConf)

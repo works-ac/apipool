@@ -12,4 +12,26 @@ export class Helpers {
       });
     });
   }
+
+  public static paginate(
+    data: Array<Record<string, any>>,
+    offset: number,
+    limit: number,
+  ): Array<Record<string, any>> {
+    const result = [];
+    if (offset + limit > data.length) return result;
+
+    for (let index = offset; index <= limit; index++) {
+      result.push(data[index]);
+    }
+
+    return result;
+  }
+
+  public static async loadJSONContent(
+    path: string,
+  ): Promise<Array<Record<string, any>>> {
+    const content = await import(path);
+    return content?.default || [];
+  }
 }

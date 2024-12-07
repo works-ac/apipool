@@ -1,8 +1,10 @@
 import {
   ApiExceptionSchema,
   ApiReplySchema,
+  CountryApiReplySchema,
   ApiXmlReplySchema,
   CheckIpQuerySchema,
+  CurrencyApiReplySchema,
 } from './schema.doc';
 
 const Description =
@@ -15,6 +17,8 @@ export const Docs = {
     ApiExceptionSchema,
     CheckIpQuerySchema,
     ApiXmlReplySchema,
+    CountryApiReplySchema,
+    CurrencyApiReplySchema,
   },
   desc: Description,
   version: process.env.VERSION || 'v1.1',

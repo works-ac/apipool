@@ -3,6 +3,7 @@ import { Docs } from 'src/docs';
 
 export const ApiDocsConstants = {
   HOME: {
+    TAG_NAME: '🏠 Home',
     PING: {
       ApiOkOpConf: {
         summary: 'Api for checking the status of backend system',
@@ -38,7 +39,7 @@ export const ApiDocsConstants = {
   },
   UTILITIES: {
     BASIC: {
-      TAGNAME: 'Basic Utilities',
+      TAGNAME: '⚙️ Basic Utilities',
       CHECK_IP: {
         ApiOpConf: {
           summary: 'Api for checking the ip address of the client.',
@@ -91,6 +92,29 @@ export const ApiDocsConstants = {
         ApiOkResConf: {
           description: 'Returns an answer telling authenticity of mail server.',
           schema: Docs.schemas.ApiReplySchema,
+        },
+      },
+      MISC_ALL_COUNTRY: {
+        ApiOpConf: {
+          summary: 'Api that lists all countries of the world.',
+          description:
+            'This api gives you the list of almost all countries of the world.',
+        },
+        ApiOkResConf: {
+          description: 'Returns list of all countries in the world',
+          schema: Docs.schemas.CountryApiReplySchema,
+        },
+      },
+      MISC_ALL_CURRENCIES: {
+        ApiOpConf: {
+          summary: 'Api that lists all currencies of the world.',
+          description:
+            'This api gives you the list of almost all currencies of the world.',
+        },
+        ApiOkResConf: {
+          description:
+            'Returns list of currencies of all countries in the world',
+          schema: Docs.schemas.CurrencyApiReplySchema,
         },
       },
     },
