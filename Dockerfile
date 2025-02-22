@@ -13,6 +13,7 @@ COPY . .
 RUN yarn run build
 RUN rm -rf .git .gitignore nest-cli.json tsconfig.build.json tsconfig.json src
 
-EXPOSE 12002
+ARG PORT=12002
+EXPOSE ${PORT}
 
 CMD [ "yarn", "run","start:prod" ]
