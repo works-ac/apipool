@@ -133,4 +133,5 @@ export enum ApiActionHandlerConstants {
   HEALTH_CHECK = 'health-check',
   IP_ADDRESS = 'check-ip',
   MAIL_ADDRESS = 'check-mail-server',
+  IP_LOC = 'ip-loc',
 }

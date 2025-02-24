@@ -1,3 +1,5 @@
+import * as geoip from 'geoip-lite';
+
 import {
   Controller,
   Get,
@@ -19,6 +21,7 @@ import { ApiResponse, ApiStatus, SUPPORTED_API_RES, URLS } from 'src/api';
 import { Helpers } from 'src/helpers';
 import { ApiActionHandlerConstants, ApiDocsConstants } from 'src/i18n';
 import { Packages } from 'src/packages';
+import { REGEX } from 'src/constant';
 
 const { ParseSuppResTypeQuery } = Packages.PIPES;
 const { ContentTypeInterceptor } = Packages.INTERCEPTORS;
@@ -76,6 +79,49 @@ export class NetworkingController {
     reply.message = 'Operation succeeded';
     reply.status = ApiStatus.SUCCESS;
     reply.details = { ans: 'DELIVERABLE' };
+    reply.entry_by = ipAddress || '0.0.0.0';
+
+    return reply;
+  }
+
+  @Get(ApiActionHandlerConstants.IP_LOC)
+  public async getIpLoc(
+    @Query('ip') ip: string,
+    @Ip() ipAddress: string,
+  ): Promise<ApiResponse> {
+    const reply = new ApiResponse();
+
+    if (!ip || !REGEX.IP.test(ip)) {
+      reply.status = ApiStatus.VALIDATION;
+      reply.message = 'Operation failed';
+      reply.entry_by = ipAddress || '0.0.0.0';
+
+      throw new HttpException(reply, HttpStatus.BAD_REQUEST);
+    }
+    if (
+      REGEX.CLASS_A_IP.test(ip) ||
+      REGEX.CLASS_B_IP.test(ip) ||
+      REGEX.CLASS_C_IP.test(ip)
+    ) {
+      reply.status = ApiStatus.VALIDATION;
+      reply.message = 'Operation failed, private ip detected';
+      reply.entry_by = ipAddress || '0.0.0.0';
+
+      throw new HttpException(reply, HttpStatus.BAD_REQUEST);
+    }
+    if (ip === '127.0.0.1' || ip === 'localhost') {
+      reply.status = ApiStatus.VALIDATION;
+      reply.message = 'Operation failed, localhost detected';
+      reply.entry_by = ipAddress || '0.0.0.0';
+
+      throw new HttpException(reply, HttpStatus.BAD_REQUEST);
+    }
+
+    const ipLocDetails = geoip.lookup(ip);
+
+    reply.message = 'Operation succeeded';
+    reply.status = ApiStatus.SUCCESS;
+    reply.details = ipLocDetails;
     reply.entry_by = ipAddress || '0.0.0.0';
 
     return reply;

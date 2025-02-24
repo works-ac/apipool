@@ -10,7 +10,6 @@ const { InvalidMailServerException } = Packages.EXCEPTIONS;
 
 describe('/api/basic-utils/networking/', () => {
   let nwController: NetworkingController;
-  let helpers: Helpers;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -196,5 +195,162 @@ describe('/api/basic-utils/networking/', () => {
       },
       TEST_SUITES_TIMEOUT,
     );
+  });
+
+  describe('ip-loc', () => {
+    it(
+      'should be defined',
+      () => expect(nwController).toBeDefined(),
+      TEST_SUITES_TIMEOUT,
+    );
+
+    it('should return expected response when 49.43.88.202 is passed', async () => {
+      const reply = {
+        status: 'success',
+        message: 'Operation succeeded',
+        entry_by: '127.0.0.1',
+        details: {
+          range: [824918016, 824926207],
+          country: 'IN',
+          region: 'PB',
+          eu: '0',
+          timezone: 'Asia/Kolkata',
+          city: 'Ludhiana',
+          ll: [31.0048, 75.9463],
+          metro: 0,
+          area: 50,
+        },
+      };
+      const status = HttpStatus.OK;
+      const response = await nwController.getIpLoc('49.43.88.202', '127.0.0.1');
+
+      expect(status).toBe(HttpStatus.OK);
+
+      expect(response.status).toBe(reply.status);
+      expect(response.message).toBe(reply.message);
+      expect(response.entry_by).toBe(reply.entry_by);
+      expect(response.details).toEqual(reply.details);
+
+      expect(response.details).toBeDefined();
+      expect(Object.keys(response.details).length).toBe(
+        Object.keys(reply.details).length,
+      );
+    });
+
+    it('should return validation when 127.0.0.1 is passed', async () => {
+      const reply = {
+        status: 'validation',
+        message: 'Operation failed, localhost detected',
+        entry_by: '127.0.0.1',
+      };
+
+      try {
+        await nwController.getIpLoc('127.0.0.1', '127.0.0.1');
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+
+        expect(error.response.status).toBe(reply.status);
+        expect(error.response.message).toBe(reply.message);
+        expect(error.response.entry_by).toBe(reply.entry_by);
+        expect(error.response.details).toBeNull();
+      }
+    });
+
+    it('should return private ip detected when 172.31.56.122 is passed', async () => {
+      const reply = {
+        status: 'validation',
+        message: 'Operation failed, private ip detected',
+        entry_by: '127.0.0.1',
+      };
+
+      try {
+        await nwController.getIpLoc('172.31.56.122', '127.0.0.1');
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+
+        expect(error.response.status).toBe(reply.status);
+        expect(error.response.message).toBe(reply.message);
+        expect(error.response.entry_by).toBe(reply.entry_by);
+        expect(error.response.details).toBeNull();
+      }
+    });
+
+    it('should return validation error when 172.31.56 is passed', async () => {
+      const reply = {
+        status: 'validation',
+        message: 'Operation failed',
+        entry_by: '127.0.0.1',
+      };
+
+      try {
+        await nwController.getIpLoc('172.31.56', '127.0.0.1');
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+
+        expect(error.response.status).toBe(reply.status);
+        expect(error.response.message).toBe(reply.message);
+        expect(error.response.entry_by).toBe(reply.entry_by);
+        expect(error.response.details).toBeNull();
+      }
+    });
+
+    it('should return validation error when 172.31.56.ff is passed', async () => {
+      const reply = {
+        status: 'validation',
+        message: 'Operation failed',
+        entry_by: '127.0.0.1',
+      };
+
+      try {
+        await nwController.getIpLoc('172.31.56.ff', '127.0.0.1');
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+
+        expect(error.response.status).toBe(reply.status);
+        expect(error.response.message).toBe(reply.message);
+        expect(error.response.entry_by).toBe(reply.entry_by);
+        expect(error.response.details).toBeNull();
+      }
+    });
+
+
+    it('should return validation error when 192.168.29.49 is passed', async () => {
+      const reply = {
+        status: 'validation',
+        message: 'Operation failed, private ip detected',
+        entry_by: '127.0.0.1',
+      };
+
+      try {
+        await nwController.getIpLoc('192.168.29.49', '127.0.0.1');
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+
+        expect(error.response.status).toBe(reply.status);
+        expect(error.response.message).toBe(reply.message);
+        expect(error.response.entry_by).toBe(reply.entry_by);
+        expect(error.response.details).toBeNull();
+      }
+    });
+
+    it('should return validation error when 10.0.20.56 is passed', async () => {
+      const reply = {
+        status: 'validation',
+        message: 'Operation failed, private ip detected',
+        entry_by: '127.0.0.1',
+      };
+
+      try {
+        await nwController.getIpLoc('10.0.20.56', '127.0.0.1');
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+
+        expect(error.response.status).toBe(reply.status);
+        expect(error.response.message).toBe(reply.message);
+        expect(error.response.entry_by).toBe(reply.entry_by);
+        expect(error.response.details).toBeNull();
+      }
+    });
+
   });
 });
