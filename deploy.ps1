@@ -20,7 +20,15 @@ if (Test-Path -Path $credentialPath) {
   }
   
   Write-Output "Preparing the image..."
+  
   docker build -t $($credentials.ImgName) .
+  $buildStatus = $LASTEXITCODE;
+
+  if($buildStatus -ne 0) {
+    Write-Output "Failed to build the image"
+    return;
+  }
+
   docker push $($credentials.ImgName)
 
   Write-Output "Deploying the app, please wait..."
@@ -62,6 +70,13 @@ else {
   $imgName = Read-Host "Enter your docker image name (without docker username)"
 
   docker build -t "$dockerUsername/$imgName" .
+  $buildStatus = $LASTEXITCODE;
+
+  if($buildStatus -ne 0) {
+    Write-Output "Failed to build the image"
+    return;
+  }
+
   docker push "$dockerUsername/$imgName"
   
   Write-Output "Deploying the app, please wait..."

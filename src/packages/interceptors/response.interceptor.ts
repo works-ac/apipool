@@ -15,9 +15,7 @@ export class ContentTypeInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
 
     return next.handle().pipe(
-      tap((_) => {
-        console.log(_);
-
+      tap(() => {
         const resType = request.query.res_type;
 
         if (resType === SUPPORTED_API_RES.XML) {
