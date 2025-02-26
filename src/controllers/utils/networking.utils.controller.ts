@@ -16,6 +16,7 @@ import {
   ApiTags,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
+  ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { ApiResponse, ApiStatus, SUPPORTED_API_RES, URLS } from 'src/api';
 import { Helpers } from 'src/helpers';
@@ -84,6 +85,11 @@ export class NetworkingController {
     return reply;
   }
 
+  @ApiOperation(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP_LOC.ApiOpConf)
+  @ApiQuery(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP_LOC.ApiQueryConf)
+  @ApiOkResponse(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP_LOC.ApiOkResConf)
+  @ApiBadRequestResponse(ApiDocsConstants.COMMONS.ApiBadReqConf)
+  @ApiInternalServerErrorResponse(ApiDocsConstants.COMMONS.ApiServerErrConf)
   @Get(ApiActionHandlerConstants.IP_LOC)
   public async getIpLoc(
     @Query('ip') ip: string,

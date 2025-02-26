@@ -95,7 +95,7 @@ export class ApiResponse {
 
     if (this.details) {
       if (!Array.isArray(this.details) && typeof this.details === 'object') {
-        for (let keys in this.details) {
+        for (const keys in this.details) {
           xmlString += `<${keys}>${this.details[keys]}</${keys}>`;
         }
       } else if (
@@ -103,7 +103,7 @@ export class ApiResponse {
         typeof this.details === 'object'
       ) {
         for (let index = 0; index < this.details.length; index++) {
-          for (let keys in this.details[index]) {
+          for (const keys in this.details[index]) {
             xmlString += `<${keys}>${this.details[index][keys]}<${keys}>`;
           }
         }

@@ -11,6 +11,9 @@ RUN yarn install
 COPY . .
 
 RUN yarn run build
+RUN yarn run test
+RUN yarn run lint
+
 RUN rm -rf .git .gitignore nest-cli.json tsconfig.build.json tsconfig.json src
 
 ARG PORT=12002

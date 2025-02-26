@@ -149,27 +149,18 @@ describe('/api/basic-utils/networking/', () => {
       'should return 400 when no domain is provided',
       async () => {
         const ipAddress = '127.0.0.1';
-        const reply = {
-          status: 'validation',
-          message: 'Operation succeeded',
-          entry_by: '127.0.0.1',
-          details: { ans: 'All fields are mandatory.' },
-        };
-        const status = HttpStatus.BAD_REQUEST;
 
         try {
           await nwController.checkMailServer(ipAddress, '');
         } catch (error) {
-          expect(status).toBe(HttpStatus.BAD_REQUEST);
-          expect(reply).toBeDefined();
-          expect(reply).toBeInstanceOf(Object);
+          expect(error.status).toBe(HttpStatus.BAD_REQUEST);
         }
       },
       TEST_SUITES_TIMEOUT,
     );
 
     it(
-      'should return 500 when an unknown domain is provided',
+      'should be an instance of InvalidMailServerException',
       async () => {
         jest
           .spyOn(Helpers, 'checkForMailServer')
@@ -178,19 +169,11 @@ describe('/api/basic-utils/networking/', () => {
           );
 
         const ipAddress = '127.0.0.1';
-        const reply = {
-          status: 'exception',
-          message: 'Invalid mail server',
-          entry_by: '127.0.0.1',
-        };
-        const status = HttpStatus.INTERNAL_SERVER_ERROR;
 
         try {
           await nwController.checkMailServer(ipAddress, 'bookjn.in');
         } catch (error) {
-          expect(status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
-          expect(reply).toBeDefined();
-          expect(reply).toBeInstanceOf(Object);
+          expect(error).toBeInstanceOf(InvalidMailServerException);
         }
       },
       TEST_SUITES_TIMEOUT,
@@ -313,7 +296,6 @@ describe('/api/basic-utils/networking/', () => {
       }
     });
 
-
     it('should return validation error when 192.168.29.49 is passed', async () => {
       const reply = {
         status: 'validation',
@@ -351,6 +333,5 @@ describe('/api/basic-utils/networking/', () => {
         expect(error.response.details).toBeNull();
       }
     });
-
   });
 });

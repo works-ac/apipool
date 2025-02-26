@@ -117,6 +117,24 @@ export const ApiDocsConstants = {
           schema: Docs.schemas.CurrencyApiReplySchema,
         },
       },
+      CHECK_IP_LOC: {
+        ApiOpConf: {
+          summary: 'Api for checking location of specified public ip address.',
+          description:
+            'This api gives you the location of the specified public ip address.',
+        },
+        ApiQueryConf: {
+          name: 'ip',
+          schema: Docs.schemas.CheckIpLocQuerySchema.ip,
+          description: 'Public ip address you want to check',
+        },
+        ApiOkResConf: {
+          description:
+            'Returns the location of the specified public ip address.',
+          schema: Docs.schemas.IpLocApiReplySchema,
+        },
+        ApiBadReqResConf: {},
+      },
     },
   },
   COMMONS: {
@@ -124,6 +142,16 @@ export const ApiDocsConstants = {
       description:
         'An error occurred on server during processing of your request.',
       schema: Docs.schemas.ApiExceptionSchema,
+    },
+    ApiBadReqConf: {
+      description: 'The client request is invalid.',
+      schema: {
+        anyOf: [
+          Docs.schemas.BadReqApiReplySchema,
+          Docs.schemas.IpLocLocalBadReqApiReplySchema,
+          Docs.schemas.PrivateIpLocBadReqApiReplySchema,
+        ],
+      },
     },
   },
 };
