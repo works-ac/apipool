@@ -1,6 +1,0 @@
-FROM node:20
-RUN mkdir -p /usr/apps
-COPY . .
-RUN yarn install
-RUN npm run build
-CMD [ "npm", "run","start:prod" ]

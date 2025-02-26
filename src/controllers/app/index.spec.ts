@@ -94,10 +94,6 @@ describe('AppController', () => {
           entry_by: '127.0.0.1',
           details: null,
         };
-        const mockResponse = {
-          status: HttpStatus.OK,
-          reply,
-        };
         const status = HttpStatus.OK;
 
         const response = appController.healthCheck(ipAddress);

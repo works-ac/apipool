@@ -5,6 +5,11 @@ import {
   ApiXmlReplySchema,
   CheckIpQuerySchema,
   CurrencyApiReplySchema,
+  CheckIpLocQuerySchema,
+  IpLocApiReplySchema,
+  BadReqApiReplySchema,
+  IpLocLocalBadReqApiReplySchema,
+  PrivateIpLocBadReqApiReplySchema,
 } from './schema.doc';
 
 const Description =
@@ -14,11 +19,16 @@ const Description =
 export const Docs = {
   schemas: {
     ApiReplySchema,
+    IpLocApiReplySchema,
     ApiExceptionSchema,
     CheckIpQuerySchema,
+    CheckIpLocQuerySchema,
     ApiXmlReplySchema,
     CountryApiReplySchema,
     CurrencyApiReplySchema,
+    BadReqApiReplySchema,
+    IpLocLocalBadReqApiReplySchema,
+    PrivateIpLocBadReqApiReplySchema,
   },
   desc: Description,
   version: process.env.VERSION || 'v1.1',
