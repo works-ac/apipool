@@ -60,7 +60,7 @@ else {
     return;
   }
 
-  if ($loginStatus -ne "Login Succeeded") {
+  if ($loginStatus -eq "Login Succeeded") {
     $dockerUsername = Read-Host "Enter your docker username"
   }
 
