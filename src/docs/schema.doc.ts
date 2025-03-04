@@ -296,6 +296,101 @@ export const CurrencyApiReplySchema = {
   },
 };
 
+export const CurrencyDenominationApiReplySchema = {
+  type: 'object',
+  format: 'application/json',
+  properties: {
+    status: {
+      type: 'string',
+      default: 'success',
+      examples: [
+        'success',
+        'error',
+        'exception',
+        'not found',
+        'conflict',
+        'validation',
+      ],
+      description: 'Define the status of the api operation',
+    },
+    message: {
+      type: 'string',
+      default: 'Api operation succeeded',
+      description: 'Define message returned by the api',
+    },
+    details: {
+      type: 'object',
+      default: { '2': 1, '5': 1, '10': 1, '50': 1, '200': 1, '500': 1084306 },
+      description: 'The detailed currency-denomination api response',
+    },
+    entry_by: {
+      type: 'string',
+      default: '0.0.0.0',
+      example: '<ip address of the client>',
+      required: ['true'],
+      description: 'Describes the identity of the client',
+    },
+  },
+};
+
+export const CurrencyDenominationBadReqReplySchema = {
+  type: 'object',
+  format: 'application/json',
+  properties: {
+    status: {
+      type: 'string',
+      default: 'validation',
+      description: 'Define the status of the api operation',
+    },
+    message: {
+      type: 'string',
+      default: 'Api operation failed',
+      description: 'Define message returned by the api',
+    },
+    details: {
+      type: 'object',
+      default: { msg: 'Amount should be a natural number' },
+      description: 'The detailed currency-denomination api response',
+    },
+    entry_by: {
+      type: 'string',
+      default: '0.0.0.0',
+      example: '<ip address of the client>',
+      required: ['true'],
+      description: 'Describes the identity of the client',
+    },
+  },
+};
+
+export const CurrencyDenominationNotAcceptableReplySchema = {
+  type: 'object',
+  format: 'application/json',
+  properties: {
+    status: {
+      type: 'string',
+      default: 'validation',
+      description: 'Define the status of the api operation',
+    },
+    message: {
+      type: 'string',
+      default: 'Api operation failed',
+      description: 'Define message returned by the api',
+    },
+    details: {
+      type: 'object',
+      default: { msg: 'Amount is too big' },
+      description: 'The detailed currency-denomination api response',
+    },
+    entry_by: {
+      type: 'string',
+      default: '0.0.0.0',
+      example: '<ip address of the client>',
+      required: ['true'],
+      description: 'Describes the identity of the client',
+    },
+  },
+};
+
 export const ApiXmlReplySchema = {
   type: 'object',
   properties: {
@@ -394,6 +489,10 @@ export const CheckIpQuerySchema = {
     example: 'google.com',
     examples: ['gmail.com', 'outlook.com', 'hotmail.com'],
   },
+};
+
+export const CurrencyDenominationQuerySchema = {
+  type: 'number',
 };
 
 export const CheckIpLocQuerySchema = {

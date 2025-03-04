@@ -2,23 +2,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus } from '@nestjs/common';
 import { TEST_SUITES_TIMEOUT } from 'src/constant';
 import { Helpers } from 'src/helpers';
-import { MiscController } from './misc.utils.controller';
 import { ApiResponse } from 'src/api';
+import { MonetoryController } from './monetory.utils.controller';
 
-describe('/api/basic-utils/misc/', () => {
-  let miscController: MiscController;
+describe('/api/basic-utils/monetory/', () => {
+  let miscController: MonetoryController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [MiscController],
+      controllers: [MonetoryController],
     }).compile();
 
-    miscController = module.get(MiscController);
+    miscController = module.get(MonetoryController);
   });
 
   afterAll(() => jest.clearAllMocks());
 
-  describe('geography/countries', () => {
+  describe('currencies', () => {
     it(
       'should be defined',
       () => expect(miscController).toBeDefined(),
@@ -26,34 +26,24 @@ describe('/api/basic-utils/misc/', () => {
     );
 
     it(
-      'should return countries list with 200 status',
+      'should return currencies list with 200 status',
       async () => {
-        const countries = [
-          {
-            name: 'Iceland',
-            dial_code: '+354',
-            emoji: '🇮🇸',
-            code: 'IS',
-          },
-          {
-            name: 'India',
-            dial_code: '+91',
-            emoji: '🇮🇳',
-            code: 'IN',
-          },
+        const currencies = [
+          { country: 'Russia', currency: 'RUB', symbol: '₽' },
+          { country: 'India', currency: 'INR', symbol: '₹' },
         ];
-        jest.spyOn(Helpers, 'loadJSONContent').mockResolvedValue(countries);
+        jest.spyOn(Helpers, 'loadJSONContent').mockResolvedValue(currencies);
 
         const ipAddress = '127.0.0.1';
         const reply = {
           status: 'success',
           message: 'Operation succeeded',
           entry_by: '127.0.0.1',
-          details: countries,
+          details: currencies,
         };
         const status = HttpStatus.OK;
 
-        const response = await miscController.getAllCountries(ipAddress);
+        const response = await miscController.getAllCurrencies(ipAddress);
 
         expect(status).toBe(HttpStatus.OK);
 
@@ -69,34 +59,24 @@ describe('/api/basic-utils/misc/', () => {
     );
 
     it(
-      'should return countries list with 200 status without ip',
+      'should return currencies list with 200 status without ip',
       async () => {
-        const countries = [
-          {
-            name: 'Iceland',
-            dial_code: '+354',
-            emoji: '🇮🇸',
-            code: 'IS',
-          },
-          {
-            name: 'India',
-            dial_code: '+91',
-            emoji: '🇮🇳',
-            code: 'IN',
-          },
+        const currencies = [
+          { country: 'Russia', currency: 'RUB', symbol: '₽' },
+          { country: 'India', currency: 'INR', symbol: '₹' },
         ];
-        jest.spyOn(Helpers, 'loadJSONContent').mockResolvedValue(countries);
+        jest.spyOn(Helpers, 'loadJSONContent').mockResolvedValue(currencies);
 
-        const ipAddress = '';
+        const ipAddress = '0.0.0.0';
         const reply = {
           status: 'success',
           message: 'Operation succeeded',
           entry_by: '0.0.0.0',
-          details: countries,
+          details: currencies,
         };
         const status = HttpStatus.OK;
 
-        const response = await miscController.getAllCountries(ipAddress);
+        const response = await miscController.getAllCurrencies(ipAddress);
 
         expect(status).toBe(HttpStatus.OK);
 

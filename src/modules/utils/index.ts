@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CONTROLLERS } from 'src/controllers';
 
-const { NetworkingController, MiscController } = CONTROLLERS.UTILS;
 @Module({
-  controllers: [NetworkingController, MiscController],
+  controllers: CONTROLLERS.UTILS,
 })
 export class UtilsModule {}
