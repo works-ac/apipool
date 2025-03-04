@@ -28,11 +28,11 @@ const { ParseSuppResTypeQuery } = Packages.PIPES;
 const { ContentTypeInterceptor } = Packages.INTERCEPTORS;
 
 @Controller(URLS.NETWORKING_CONTROLLER_URL)
-@ApiTags(ApiDocsConstants.UTILITIES.BASIC.TAGNAME)
+@ApiTags(ApiDocsConstants.UTILITIES.NETWORKING.TAGNAME)
 export class NetworkingController {
-  @ApiOperation(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP.ApiOpConf)
-  @ApiQuery(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP.ApiQueryConf)
-  @ApiReply(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP.ApiReplyConf)
+  @ApiOperation(ApiDocsConstants.UTILITIES.NETWORKING.CHECK_IP.ApiOpConf)
+  @ApiQuery(ApiDocsConstants.UTILITIES.NETWORKING.CHECK_IP.ApiQueryConf)
+  @ApiReply(ApiDocsConstants.UTILITIES.NETWORKING.CHECK_IP.ApiReplyConf)
   @ApiInternalServerErrorResponse(ApiDocsConstants.COMMONS.ApiServerErrConf)
   @Get(ApiActionHandlerConstants.IP_ADDRESS)
   @UseInterceptors(ContentTypeInterceptor)
@@ -54,10 +54,14 @@ export class NetworkingController {
     else return reply;
   }
 
-  @ApiOperation(ApiDocsConstants.UTILITIES.BASIC.CHECK_MAIL_SERVER.ApiOpConf)
-  @ApiQuery(ApiDocsConstants.UTILITIES.BASIC.CHECK_MAIL_SERVER.ApiQueryConf)
+  @ApiOperation(
+    ApiDocsConstants.UTILITIES.NETWORKING.CHECK_MAIL_SERVER.ApiOpConf,
+  )
+  @ApiQuery(
+    ApiDocsConstants.UTILITIES.NETWORKING.CHECK_MAIL_SERVER.ApiQueryConf,
+  )
   @ApiOkResponse(
-    ApiDocsConstants.UTILITIES.BASIC.CHECK_MAIL_SERVER.ApiOkResConf,
+    ApiDocsConstants.UTILITIES.NETWORKING.CHECK_MAIL_SERVER.ApiOkResConf,
   )
   @ApiInternalServerErrorResponse(ApiDocsConstants.COMMONS.ApiServerErrConf)
   @Get(ApiActionHandlerConstants.MAIL_ADDRESS)
@@ -85,9 +89,11 @@ export class NetworkingController {
     return reply;
   }
 
-  @ApiOperation(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP_LOC.ApiOpConf)
-  @ApiQuery(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP_LOC.ApiQueryConf)
-  @ApiOkResponse(ApiDocsConstants.UTILITIES.BASIC.CHECK_IP_LOC.ApiOkResConf)
+  @ApiOperation(ApiDocsConstants.UTILITIES.NETWORKING.CHECK_IP_LOC.ApiOpConf)
+  @ApiQuery(ApiDocsConstants.UTILITIES.NETWORKING.CHECK_IP_LOC.ApiQueryConf)
+  @ApiOkResponse(
+    ApiDocsConstants.UTILITIES.NETWORKING.CHECK_IP_LOC.ApiOkResConf,
+  )
   @ApiBadRequestResponse(ApiDocsConstants.COMMONS.ApiBadReqConf)
   @ApiInternalServerErrorResponse(ApiDocsConstants.COMMONS.ApiServerErrConf)
   @Get(ApiActionHandlerConstants.IP_LOC)

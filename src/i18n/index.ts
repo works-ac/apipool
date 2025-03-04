@@ -1,4 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
+import { SUPPORTED_API_RES } from 'src/api';
 import { Docs } from 'src/docs';
 
 export const ApiDocsConstants = {
@@ -38,8 +39,8 @@ export const ApiDocsConstants = {
     },
   },
   UTILITIES: {
-    BASIC: {
-      TAGNAME: '⚙️ Basic Utilities',
+    NETWORKING: {
+      TAGNAME: '🌎 Networking Utilities',
       CHECK_IP: {
         ApiOpConf: {
           summary: 'Api for checking the ip address of the client.',
@@ -49,8 +50,8 @@ export const ApiDocsConstants = {
         ApiQueryConf: {
           name: 'res_type',
           schema: Docs.schemas.CheckIpQuerySchema.res_type,
-          description: 'Api response query',
-          allowEmptyValue: true,
+          enum: SUPPORTED_API_RES,
+          description: 'Api response format',
         },
         ApiReplyConf: {
           status: HttpStatus.OK,
@@ -94,6 +95,68 @@ export const ApiDocsConstants = {
           schema: Docs.schemas.ApiReplySchema,
         },
       },
+      CHECK_IP_LOC: {
+        ApiOpConf: {
+          summary: 'Api for checking location of specified public ip address.',
+          description:
+            'This api gives you the location of the specified public ip address.',
+        },
+        ApiQueryConf: {
+          name: 'ip',
+          schema: Docs.schemas.CheckIpLocQuerySchema.ip,
+          description: 'Public ip address you want to check',
+        },
+        ApiOkResConf: {
+          description:
+            'Returns the location of the specified public ip address.',
+          schema: Docs.schemas.IpLocApiReplySchema,
+        },
+        ApiBadReqResConf: {},
+      },
+    },
+    MONETORY: {
+      TAGNAME: '₹ Monetory Utilities',
+      MISC_ALL_CURRENCIES: {
+        ApiOpConf: {
+          summary: 'Api that lists all currencies of the world.',
+          description:
+            'This api gives you the list of almost all currencies of the world.',
+        },
+        ApiOkResConf: {
+          description:
+            'Returns list of currencies of all countries in the world',
+          schema: Docs.schemas.CurrencyApiReplySchema,
+        },
+      },
+      CURRENCY_DENOMINATION: {
+        ApiOpConf: {
+          summary:
+            'Api that lists all possible currency denominations of a specified amount.',
+          description: `This API returns the currency denomination breakdown for a given amount. It divides the amount into the highest possible currency notes and coins based on standard denominations.By default, max allowed amount is ${process.env.MAX_ALLOWED_CURRENCY_AMT_WORDS || 'one lakh'}. <b>Please note that this amount is subject to change.</b><br/><br/> <b>How it works</b><br/> <ul> <li> The API takes an amount as input. </li> <li> It calculates how many currency notes and coins are needed to make up the given amount using the largest denominations first. </li> <li> The response includes a JSON object where keys represent currency denominations and values represent the number of times that denomination is used.</li></ul>`,
+        },
+        ApiOkResConf: {
+          description:
+            'Returns lists of all possible currency denominations of a specified amount.',
+          schema: Docs.schemas.CurrencyDenominationApiReplySchema,
+        },
+        ApiBadReqResConf: {
+          description: 'Occurs when the amount is less than or equal to zero.',
+          schema: Docs.schemas.CurrencyDenominationBadReqReplySchema,
+        },
+        ApiNotAcceptableResConf: {
+          description:
+            'Occurs when the amount is greater than standard max allowed currency amount.',
+          schema: Docs.schemas.CurrencyDenominationNotAcceptableReplySchema,
+        },
+        ApiQueryConf: {
+          name: 'amount',
+          schema: Docs.schemas.CurrencyDenominationQuerySchema,
+          description: 'Amount you want the denomination for',
+        },
+      },
+    },
+    BASIC: {
+      TAGNAME: '⚙️ Basic Utilities',
       MISC_ALL_COUNTRY: {
         ApiOpConf: {
           summary: 'Api that lists all countries of the world.',
