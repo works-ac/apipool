@@ -10,6 +10,10 @@ import {
   BadReqApiReplySchema,
   IpLocLocalBadReqApiReplySchema,
   PrivateIpLocBadReqApiReplySchema,
+  CurrencyDenominationApiReplySchema,
+  CurrencyDenominationBadReqReplySchema,
+  CurrencyDenominationNotAcceptableReplySchema,
+  CurrencyDenominationQuerySchema,
 } from './schema.doc';
 
 const Description =
@@ -26,9 +30,13 @@ export const Docs = {
     ApiXmlReplySchema,
     CountryApiReplySchema,
     CurrencyApiReplySchema,
+    CurrencyDenominationApiReplySchema,
+    CurrencyDenominationBadReqReplySchema,
     BadReqApiReplySchema,
     IpLocLocalBadReqApiReplySchema,
     PrivateIpLocBadReqApiReplySchema,
+    CurrencyDenominationNotAcceptableReplySchema,
+    CurrencyDenominationQuerySchema,
   },
   desc: Description,
   version: process.env.VERSION || 'v1.1',

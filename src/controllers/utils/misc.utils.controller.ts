@@ -32,22 +32,4 @@ export class MiscController {
 
     return reply;
   }
-
-  @ApiOperation(ApiDocsConstants.UTILITIES.BASIC.MISC_ALL_CURRENCIES.ApiOpConf)
-  @ApiOkResponse(
-    ApiDocsConstants.UTILITIES.BASIC.MISC_ALL_CURRENCIES.ApiOkResConf,
-  )
-  @ApiInternalServerErrorResponse(ApiDocsConstants.COMMONS.ApiServerErrConf)
-  @Get('monetory/currencies')
-  public async getAllCurrencies(@Ip() ipAddress: string): Promise<ApiResponse> {
-    const reply = new ApiResponse();
-    const filePath = path.resolve(__dirname, '../../../', 'json/currency.json');
-
-    reply.status = ApiStatus.SUCCESS;
-    reply.message = 'Operation succeeded';
-    reply.entry_by = ipAddress || '0.0.0.0';
-    reply.details = await Helpers.loadJSONContent(filePath);
-
-    return reply;
-  }
 }
