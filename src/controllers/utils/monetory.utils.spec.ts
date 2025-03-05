@@ -6,14 +6,14 @@ import { ApiResponse } from 'src/api';
 import { MonetoryController } from './monetory.utils.controller';
 
 describe('/api/basic-utils/monetory/', () => {
-  let miscController: MonetoryController;
+  let monetoryController: MonetoryController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MonetoryController],
     }).compile();
 
-    miscController = module.get(MonetoryController);
+    monetoryController = module.get(MonetoryController);
   });
 
   afterAll(() => jest.clearAllMocks());
@@ -21,7 +21,7 @@ describe('/api/basic-utils/monetory/', () => {
   describe('currencies', () => {
     it(
       'should be defined',
-      () => expect(miscController).toBeDefined(),
+      () => expect(monetoryController).toBeDefined(),
       TEST_SUITES_TIMEOUT,
     );
 
@@ -43,7 +43,7 @@ describe('/api/basic-utils/monetory/', () => {
         };
         const status = HttpStatus.OK;
 
-        const response = await miscController.getAllCurrencies(ipAddress);
+        const response = await monetoryController.getAllCurrencies(ipAddress);
 
         expect(status).toBe(HttpStatus.OK);
 
@@ -76,7 +76,7 @@ describe('/api/basic-utils/monetory/', () => {
         };
         const status = HttpStatus.OK;
 
-        const response = await miscController.getAllCurrencies(ipAddress);
+        const response = await monetoryController.getAllCurrencies(ipAddress);
 
         expect(status).toBe(HttpStatus.OK);
 
@@ -95,7 +95,7 @@ describe('/api/basic-utils/monetory/', () => {
   describe('currency-denomination', () => {
     it(
       'should be defined',
-      () => expect(miscController).toBeDefined(),
+      () => expect(monetoryController).toBeDefined(),
       TEST_SUITES_TIMEOUT,
     );
 
@@ -113,7 +113,7 @@ describe('/api/basic-utils/monetory/', () => {
           },
         };
 
-        const response = miscController.currencyDenomination(amount, ipAddress);
+        const response = monetoryController.currencyDenomination(amount, ipAddress);
 
         expect(response.status).toBe(reply.status);
         expect(response.message).toBe(reply.message);
@@ -138,7 +138,7 @@ describe('/api/basic-utils/monetory/', () => {
         };
 
         try {
-          miscController.currencyDenomination(amount, ipAddress);
+          monetoryController.currencyDenomination(amount, ipAddress);
         } catch (error) {
           expect(error.status).toBe(HttpStatus.BAD_REQUEST);
           expect(error.response.status).toBe(reply.status);
@@ -165,7 +165,7 @@ describe('/api/basic-utils/monetory/', () => {
         };
 
         try {
-          miscController.currencyDenomination(amount, ipAddress);
+          monetoryController.currencyDenomination(amount, ipAddress);
         } catch (error) {
           expect(error.status).toBe(HttpStatus.NOT_ACCEPTABLE);
           expect(error.response.status).toBe(reply.status);
@@ -191,7 +191,7 @@ describe('/api/basic-utils/monetory/', () => {
         };
 
         try {
-          miscController.currencyDenomination(Number(amount), ipAddress);
+          monetoryController.currencyDenomination(Number(amount), ipAddress);
         } catch (error) {
           expect(error.status).toBe(HttpStatus.NOT_ACCEPTABLE);
           expect(error.response.status).toBe(reply.status);
