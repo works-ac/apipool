@@ -113,7 +113,10 @@ describe('/api/basic-utils/monetory/', () => {
           },
         };
 
-        const response = monetoryController.currencyDenomination(amount, ipAddress);
+        const response = monetoryController.currencyDenomination(
+          amount,
+          ipAddress,
+        );
 
         expect(response.status).toBe(reply.status);
         expect(response.message).toBe(reply.message);

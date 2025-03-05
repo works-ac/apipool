@@ -19,7 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { ApiResponse, ApiStatus, URLS } from 'src/api';
 import * as path from 'path';
-import { ApiDocsConstants } from 'src/i18n';
+import { ApiActionHandlerConstants, ApiDocsConstants } from 'src/i18n';
 import { Helpers } from 'src/helpers';
 import { CURRENCY_NOTES } from 'src/constant';
 
@@ -63,7 +63,7 @@ export class MonetoryController {
     ApiDocsConstants.UTILITIES.MONETORY.CURRENCY_DENOMINATION.ApiQueryConf,
   )
   @ApiInternalServerErrorResponse(ApiDocsConstants.COMMONS.ApiServerErrConf)
-  @Get('currency-denomination')
+  @Get(ApiActionHandlerConstants.CURRENCY_DENOMINATION)
   public currencyDenomination(
     @Query('amount', new DefaultValuePipe(0), new ParseIntPipe())
     amount: number,

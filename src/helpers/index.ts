@@ -1,4 +1,6 @@
+import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import * as dns from 'dns';
+import { Configurations } from 'src/config';
 import { Packages } from 'src/packages';
 
 const { InvalidMailServerException } = Packages.EXCEPTIONS;
@@ -64,5 +66,30 @@ export class Helpers {
     if (amount == 1) this.denomination = { 1: amount, ...this.denomination };
 
     return this.denomination;
+  }
+
+  public static getPsqlDbConfig(): SequelizeModuleOptions {
+    const { PostgresDatabaseConfig } = Configurations.Database;
+    const dbConfig = new PostgresDatabaseConfig(
+      process.env.DB_HOST,
+      Number(process.env.DB_PORT) || 5432,
+      process.env.DB_USERNAME,
+      process.env.DB_PASSWORD,
+      process.env.DB_NAME,
+    );
+
+    const psqlConfig: SequelizeModuleOptions = {
+      dialect: dbConfig.DB_DIALECT,
+      host: dbConfig.DB_HOST,
+      port: dbConfig.DB_PORT,
+      username: dbConfig.DB_USERNAME,
+      password: dbConfig.DB_PASSWORD,
+      database: dbConfig.DB_NAME,
+      autoLoadModels: true,
+      synchronize: true,
+      retryAttempts: 2,
+    };
+
+    return psqlConfig;
   }
 }

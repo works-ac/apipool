@@ -225,4 +225,9 @@ export enum ApiActionHandlerConstants {
   IP_ADDRESS = 'check-ip',
   MAIL_ADDRESS = 'check-mail-server',
   IP_LOC = 'ip-loc',
+  CURRENCY_DENOMINATION = 'currency-denomination',
+}
+
+export enum DbConstants {
+  DB_DIALECT = 'postgres',
 }
