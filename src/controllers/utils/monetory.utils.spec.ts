@@ -91,4 +91,115 @@ describe('/api/basic-utils/monetory/', () => {
       TEST_SUITES_TIMEOUT,
     );
   });
+
+  describe('currency-denomination', () => {
+    it(
+      'should be defined',
+      () => expect(miscController).toBeDefined(),
+      TEST_SUITES_TIMEOUT,
+    );
+
+    it(
+      'should return currency denomination with 200 status',
+      () => {
+        const amount = 100;
+        const ipAddress = '127.0.0.1';
+        const reply = {
+          status: 'success',
+          message: 'Operation succeeded',
+          entry_by: ipAddress,
+          details: {
+            100: 1,
+          },
+        };
+
+        const response = miscController.currencyDenomination(amount, ipAddress);
+
+        expect(response.status).toBe(reply.status);
+        expect(response.message).toBe(reply.message);
+        expect(response.entry_by).toBe(reply.entry_by);
+        expect(response.details).toEqual(reply.details);
+      },
+      TEST_SUITES_TIMEOUT,
+    );
+
+    it(
+      'should return validation error with 400 status',
+      () => {
+        const amount = -100;
+        const ipAddress = '127.0.0.1';
+        const reply = {
+          status: 'validation',
+          message: 'Operation failed',
+          entry_by: ipAddress,
+          details: {
+            msg: 'Amount should be a natural number',
+          },
+        };
+
+        try {
+          miscController.currencyDenomination(amount, ipAddress);
+        } catch (error) {
+          expect(error.status).toBe(HttpStatus.BAD_REQUEST);
+          expect(error.response.status).toBe(reply.status);
+          expect(error.response.message).toBe(reply.message);
+          expect(error.response.entry_by).toBe(reply.entry_by);
+          expect(error.response.details).toEqual(reply.details);
+        }
+      },
+      TEST_SUITES_TIMEOUT,
+    );
+
+    it(
+      'should return validation error with 406 status',
+      () => {
+        const amount = 1e6;
+        const ipAddress = '127.0.0.1';
+        const reply = {
+          status: 'validation',
+          message: 'Operation failed',
+          entry_by: ipAddress,
+          details: {
+            msg: 'Amount is too large',
+          },
+        };
+
+        try {
+          miscController.currencyDenomination(amount, ipAddress);
+        } catch (error) {
+          expect(error.status).toBe(HttpStatus.NOT_ACCEPTABLE);
+          expect(error.response.status).toBe(reply.status);
+          expect(error.response.message).toBe(reply.message);
+          expect(error.response.entry_by).toBe(reply.entry_by);
+          expect(error.response.details).toEqual(reply.details);
+        }
+      },
+      TEST_SUITES_TIMEOUT,
+    );
+
+    it(
+      'should return exception status with 400 status',
+      () => {
+        const amount = 'www';
+        const ipAddress = '127.0.0.1';
+        const reply = {
+          message: 'Validation failed (numeric string is expected)',
+          entry_by: '127.0.0.1',
+          status: 'exception',
+          error: 'Bad Request',
+          statusCode: 400,
+        };
+
+        try {
+          miscController.currencyDenomination(Number(amount), ipAddress);
+        } catch (error) {
+          expect(error.status).toBe(HttpStatus.NOT_ACCEPTABLE);
+          expect(error.response.status).toBe(reply.status);
+          expect(error.response.message).toBe(reply.message);
+          expect(error.response.entry_by).toBe(reply.entry_by);
+        }
+      },
+      TEST_SUITES_TIMEOUT,
+    );
+  });
 });
