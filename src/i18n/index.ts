@@ -231,3 +231,7 @@ export enum ApiActionHandlerConstants {
 export enum DbConstants {
   DB_DIALECT = 'postgres',
 }
+
+export enum TableNames {
+  COUNTRY = 'country',
+}
