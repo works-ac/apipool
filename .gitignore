@@ -15,6 +15,7 @@ lerna-debug.log*
 .env
 .vscode
 credentials.json
+private
 
 # OS
 .DS_Store

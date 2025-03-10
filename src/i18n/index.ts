@@ -234,4 +234,5 @@ export enum DbConstants {
 
 export enum TableNames {
   COUNTRY = 'country',
+  STATES = 'states'
 }
