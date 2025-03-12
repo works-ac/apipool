@@ -10,13 +10,13 @@ export class GeneralException implements ExceptionFilter {
 
     const status = exception.getStatus ? exception.getStatus() : 500;
     const details = exception.getResponse ? exception.getResponse() : {};
-    const message = exception?.message || 'An error occurred';
+    const message = 'Api operation failed';
 
     return response.status(status).json({
       message,
       entry_by: request.ip || '0.0.0.0',
       status: ApiStatus.EXCEPTION,
-      ...details,
+      details
     });
   }
 }

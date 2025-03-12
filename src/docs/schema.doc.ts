@@ -230,8 +230,8 @@ export const CountryApiReplySchema = {
     },
     details: {
       type: 'object',
-      default: [
-        {
+      default: {
+        countries: [{
           name: 'Iceland',
           dial_code: '+354',
           emoji: '🇮🇸',
@@ -242,8 +242,50 @@ export const CountryApiReplySchema = {
           dial_code: '+91',
           emoji: '🇮🇳',
           code: 'IN',
-        },
+        }],
+        totalRecords: 2
+      },
+      description: 'The detailed api response',
+    },
+    entry_by: {
+      type: 'string',
+      default: '0.0.0.0',
+      example: '<ip address of the client>',
+      required: ['true'],
+      description: 'Describes the identity of the client',
+    },
+  },
+};
+
+export const CountryApiBadReqReplySchema = {
+  type: 'object',
+  format: 'application/json',
+  properties: {
+    status: {
+      type: 'string',
+      default: 'exception',
+      examples: [
+        'success',
+        'error',
+        'exception',
+        'not found',
+        'conflict',
+        'validation',
       ],
+      description: 'Define the status of the api operation',
+    },
+    message: {
+      type: 'string',
+      default: 'Api operation failed',
+      description: 'Define message returned by the api',
+    },
+    details: {
+      type: 'object',
+      default: {
+        message: "Validation failed (numeric string is expected)",
+        error: "Bad Request",
+        statusCode: 400
+      },
       description: 'The detailed api response',
     },
     entry_by: {
@@ -507,3 +549,9 @@ export const CheckIpLocQuerySchema = {
     example: '172.32.56.122',
   },
 };
+
+export const CountryQuerySchema = {
+  type: 'number',
+  example: 1,
+  default: 1
+}
