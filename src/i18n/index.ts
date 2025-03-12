@@ -161,11 +161,20 @@ export const ApiDocsConstants = {
         ApiOpConf: {
           summary: 'Api that lists all countries of the world.',
           description:
-            'This api gives you the list of almost all countries of the world.',
+            'Retrieves a paginated list of countries, including relevant geographical details such as country name, dial code and country code etc. The `page` query parameter allows navigation through the dataset.<br/> **Note:** The API returns a maximum of 11 countries per page.',
         },
         ApiOkResConf: {
           description: 'Returns list of all countries in the world',
           schema: Docs.schemas.CountryApiReplySchema,
+        },
+        ApiBadReqConf: {
+          description: 'Occurs when the value of page number is invalid.',
+          schema: Docs.schemas.CountryApiBadReqReplySchema
+        },
+        ApiQueryConf: {
+          name: 'page',
+          schema: Docs.schemas.CountryQuerySchema,
+          description: 'Page refers to `page number`. Each page number contains max 11 countries.',
         },
       },
       MISC_ALL_CURRENCIES: {
